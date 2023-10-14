@@ -1,9 +1,10 @@
 import ItemsContext from "../context/items"
 import { useContext, useEffect } from "react"
 import Item from "./Item"
+import FlashMessage from "react-flash-message"
 
 function ItemList() {
-  const { items, setItems } = useContext(ItemsContext)
+  const { items, setItems, flag, setFlag } = useContext(ItemsContext)
 
   const renderedItems = items?.map((item) => {
     return <Item item={item} key={item.id} />
@@ -11,6 +12,15 @@ function ItemList() {
 
   return (
     <>
+      <div className="flex items-center justify-center pt-5">
+        {flag && (
+          <FlashMessage duration={3000} persistOnHover={true}>
+            <p className="bg-green-600 text-white px-3 py-2 rounded-md">
+              Purchase Successful
+            </p>
+          </FlashMessage>
+        )}
+      </div>
       <p className="text-center font-poppins text-xl font-bold py-5">
         Pick Your Items
       </p>

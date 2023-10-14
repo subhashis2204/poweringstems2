@@ -7,6 +7,7 @@ const ItemsContext = createContext()
 
 function ItemsProvider({ children }) {
   const [items, setItems] = useState(cookies.get("items") || [])
+  const [flag, setFlag] = useState(false)
 
   useEffect(() => {
     const requiredItems = cookies.get("items")
@@ -31,6 +32,7 @@ function ItemsProvider({ children }) {
         return { ...item, qty: currentQuantity }
       }
 
+      setFlag(false)
       return item
     })
 
@@ -77,6 +79,8 @@ function ItemsProvider({ children }) {
     <ItemsContext.Provider
       value={{
         items,
+        flag,
+        setFlag,
         setItems,
         handleAddItem,
         handleRemoveAllItems,

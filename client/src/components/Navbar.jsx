@@ -24,7 +24,7 @@ function Navbar() {
   const content = isAuth ? <Logout /> : <Login />
   return (
     <div className="flex justify-between items-center p-5 md:px-16 mx-auto bg-purple-200">
-      <div className="text-2xl">Demo Text</div>
+      <div className="text-3xl font-bold">EcoWealth</div>
       <div className="flex gap-8 text-sm font-medium">
         <Link to="/">Home</Link>
         <Link to="/store">Store</Link>

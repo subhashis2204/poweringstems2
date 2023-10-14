@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import AppContext from "../context/AppContext"
 import { auth, db } from "../../firebase-config"
 import {
@@ -14,11 +14,13 @@ import ItemsContext from "../context/items"
 
 function BillTotal({ items }) {
   const { user } = useContext(AppContext)
-  const { handleEmptyCart } = useContext(ItemsContext)
+  const { handleEmptyCart, setFlag, flag } = useContext(ItemsContext)
+  const [processing, setProcessing] = useState(false)
 
   let totalAmount = 0
 
   const handlePurchaseOrder = async () => {
+    setProcessing(true)
     const email = auth.currentUser.email
 
     // console.log(auth.currentUser.getIdToken())
@@ -44,6 +46,8 @@ function BillTotal({ items }) {
     })
 
     handleEmptyCart()
+    setProcessing(false)
+    setFlag(true)
   }
 
   if (items) {
@@ -83,7 +87,14 @@ function BillTotal({ items }) {
           <p>{user.points}</p>
         </div>
       )}
-      {user && totalAmount > 0 && content}
+      {!processing && user && totalAmount > 0 && content}
+      {processing && (
+        <div className="flex justify-center w-full">
+          <p className="bg-green-600 text-white px-3 py-2 rounded-md">
+            Processing . . .
+          </p>
+        </div>
+      )}
     </>
   )
 }
