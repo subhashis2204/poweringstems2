@@ -15,7 +15,7 @@ function MapsPage() {
               return `${isActive ? "bg-purple-200" : ""} py-1 px-5 rounded-full`
             }}
           >
-            Plastic
+            Glass
           </NavLink>
           <NavLink
             to="/aluminum"

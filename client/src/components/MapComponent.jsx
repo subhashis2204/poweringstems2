@@ -24,7 +24,7 @@ function MapComponent({ locations, center }) {
 
     const locationRef = collection(db, "locations")
     const docData = {
-      type: "plastic",
+      type: "paper",
       latitude: lat,
       longitude: lng,
     }
@@ -36,10 +36,10 @@ function MapComponent({ locations, center }) {
       <GoogleMap
         mapContainerStyle={{
           width: "100%",
-          height: "50vh",
+          height: "70vh",
           margin: "10px 0 0 10px",
         }}
-        zoom={13}
+        zoom={16}
         center={{ lat: center.latitude, lng: center.longitude }}
         onClick={handleMapClick}
       >

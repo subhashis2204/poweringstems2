@@ -2,6 +2,7 @@ import SearchBox from "./SearchBox"
 import { useEffect, useState } from "react"
 import MapComponent from "./MapComponent"
 import { db } from "../../firebase-config"
+import { render } from "react-dom"
 import {
   collection,
   query,
@@ -9,28 +10,8 @@ import {
   onSnapshot,
   addDoc,
 } from "firebase/firestore"
-
-function generateCoordinates() {
-  const getRandomCoordinate = (min, max) => {
-    return Math.random() * (max - min) + min
-  }
-
-  const coordinates = []
-
-  // latitude => 22.8015194
-  // longitude => 86.2028753
-  const maxLat = 22.79
-  const minLat = 22.79
-  const maxLng = 88.35
-  const minLng = 88.33
-
-  for (let i = 0; i < 100; i++) {
-    const latitude = getRandomCoordinate(minLat, maxLat)
-    const longitude = getRandomCoordinate(minLng, maxLng)
-    coordinates.push({ latitude, longitude, type: "plastic" })
-  }
-  return coordinates
-}
+import QueryBox from "./QueryBox"
+import FlashMessage from "react-flash-message"
 
 function PlasticMapComponent() {
   const [locations, setLocations] = useState([])
@@ -42,18 +23,8 @@ function PlasticMapComponent() {
 
   useEffect(() => {
     const locationRef = collection(db, "locations")
-    // adding geocoordinates here
 
-    // const coordinates = generateCoordinates()
-
-    // coordinates.forEach(async (docData) => {
-    //   const docRef = await addDoc(locationRef, docData)
-    //   console.log("Document written with ID: ", docRef.id)
-    // })
-
-    // ending it here
-
-    const q = query(locationRef, where("type", "==", "plastic"))
+    const q = query(locationRef, where("type", "==", "glass"))
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const locations = []
       querySnapshot.forEach((doc) => {
@@ -92,13 +63,17 @@ function PlasticMapComponent() {
         <div className="col-start-1 col-span-3">
           <MapComponent locations={locations} center={center} />
         </div>
-        <div className="col-span-2">
+        <div className="flex flex-col gap-8 col-span-2">
           <SearchBox
             type="plastic"
             setLocations={setLocations}
             setLatitude={setLatitude}
             setLongitude={setLongitude}
           />
+          <QueryBox type="glass" />
+        </div>
+        <div>
+          <div></div>
         </div>
       </div>
     </>
